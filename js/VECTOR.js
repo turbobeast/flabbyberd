@@ -59,7 +59,7 @@ VECTOR.prototype = {
 
 
 	leftNormal : function () {
-		return new VECTOR(this.z, -this.x);
+		return new VECTOR(this.y, -this.x);
 	},
 
 
