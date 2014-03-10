@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Flappy Bird</title>
+	<style> html , body { margin: 0; padding: 0; overflow: hidden;} canvas { margin: 0; padding: 0;} </style>
+</head>
+<body>
+<canvas id="birdietime"></canvas>
+<script src="js/jquery-1.11.0.min.js"></script>
+<script src="js/ANIMATION_CONTROLLER.js"></script>
+<script src="js/RESIZOR.js"></script>
+<script src="js/VECTOR.js"></script>
+<script src="js/BLOCK.js"></script>
+<script src="js/PIPE.js"></script>
+<script src="js/FLAPPY_SCENE.js"></script>
+<script src="js/FLAPPY.js"></script>
+<script>
+(function () {
+	var canvas = document.getElementById('birdietime'),
+	context = canvas.getContext('2d'),
+	scene;
+
+	RESIZOR.addHandler(function (wid,hite) {
+		canvas.width = wid;
+		canvas.height = hite;
+	});
+
+	RESIZOR.once(function (w,h) {
+		scene = FLAPPY_SCENE(w,h, context);
+
+		RESIZOR.addHandler(scene.updateSize);
+		ANIMATION_CONTROLLER.addScene(scene);
+		canvas.addEventListener('click',function(e){
+			e.preventDefault();
+			scene.onTouch();
+		}, false);
+		canvas.addEventListener('touchStart',function (e) {
+			e.preventDefault();
+			scene.onTouch();
+		}, false);
+		ANIMATION_CONTROLLER.init();
+
+	});
+
+	RESIZOR.init();
+
+}());
+</script>
+</body>
+</html>
