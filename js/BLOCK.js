@@ -1,7 +1,7 @@
 var BLOCK = function (x,y,w,h) {
 	this.x = x || 0;
 	this.y = y || 0;
-	this.width = w;
+	this.width = w ;
 	this.height = h;
 	this.image = null;
 	this.halfWidth = this.width * 0.5;
@@ -10,8 +10,13 @@ var BLOCK = function (x,y,w,h) {
 };
 
 BLOCK.prototype = {
-	updateSize : function (wid, hite) {
-		
+	updateSize : function (x,y,w,h) {
+		this.x = x;
+		this.y = y;
+		this.width = w ;
+		this.height = h;
+		this.halfWidth = this.width * 0.5;
+		this.halfHeight = this.height * 0.5;
 	},
 
 	skin : function (src) {
@@ -23,10 +28,13 @@ BLOCK.prototype = {
 		this.fillStyle = fStyle;
 	},
 
-	update : function () {
-
+	update : function (bird) {
+		//
 	},
 
+	followBird : function (bird) {
+		this.x = bird.x;
+	},
 
 	collisionTest : function (ragdoll) {
 
@@ -56,7 +64,7 @@ BLOCK.prototype = {
 					} else {
 						ragdoll.y -= overlapY;
 					}
-					ragdoll.velocity.multiply(-0.3);
+					
 
 				} else {
 
@@ -66,21 +74,19 @@ BLOCK.prototype = {
 						ragdoll.x -= overlapX;
 					}
 				}
-
-				ragdoll.angle = 0;
+				ragdoll.velocity.multiply(-0.2);
 			}
 		}
 
 		return hit;
 	},
 
-	render : function (ctx) {
-
+	render : function (ctx,camera) {
 
 		ctx.save();
 		ctx.fillStyle = this.fillStyle;
 		ctx.setTransform(1,0,0,1,0,0);
-		ctx.translate(this.x, this.y);
+		ctx.translate(camera.x +  this.x, camera.y + this.y);
 		ctx.fillRect(-this.halfWidth, -this.halfHeight, this.width, this.height);
 		//ctx.drawImage(sprite, -this.width * 0.5, -this.height * 0.5, this.width, this.height );
 		ctx.restore();

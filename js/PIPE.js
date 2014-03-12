@@ -3,11 +3,12 @@ var PIPE = function (centerY, hite, wid, floor) {
 	var pipe = {
 		x : wid + 200,
 		blocks : [],
-		speed : 4
+		speed : 4,
+		width: 100
 	},
 	passed = false,
 	height = hite,
-	gapHeight = 180,
+	gapHeight = 200,
 	bottomPipeTop = centerY + (gapHeight * 0.5),
 	topPipeBottom = centerY - (gapHeight * 0.5),
 	bottomPipeY = bottomPipeTop + ((height -  bottomPipeTop) * 0.5),
@@ -36,11 +37,10 @@ var PIPE = function (centerY, hite, wid, floor) {
 	};
 
 
-	pipe.render = function (ctx) {
+	pipe.render = function (ctx,camera) {
 		var i = 0;
-
 		for(i = 0; i < this.blocks.length; i += 1) {
-			this.blocks[i].render(ctx);
+			this.blocks[i].render(ctx,camera);
 		}
 	};
 

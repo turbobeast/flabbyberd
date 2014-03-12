@@ -1,0 +1,109 @@
+html , body {
+		font-family: 'Geo', sans-serif;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		background: #62bdc8;
+		height: 100%;
+		width: 100%;
+	}
+	p, div, h1, h2, h3 {
+		padding: 0;
+		margin: 0;
+	}
+	a img {
+		border: none;
+	}
+	.rap {
+		width: 100%;
+		height: 100%;
+		position: relative;
+	}
+	canvas {
+		margin: 0;
+		padding: 0;
+		position: absolute;
+
+		top : 0; left: 0;
+		
+	} 
+	.score {
+		position: absolute;
+		width: 100px;
+		text-align: center;
+		right: 50%;
+		top: 14%;
+		margin-right: -50px;
+		color: white;
+		font-size: 4em;
+		text-shadow: -4px 0px 0px #000, 4px 0px 0px #000, 0px -4px 0px #000, 0px 4px 0px #000;
+		
+	}
+	.flappyb {
+		position: absolute;
+		width: 100%;
+		
+		top: 8%;
+		text-align: center;
+	}
+	.flappyb img {
+		/*display: block;
+		position: absolute;*/
+		width: 76%;
+		max-width: 478px;
+
+		
+		/*margin-left: 12%;*/
+		
+	}
+
+	.subtitle {
+		position: absolute;
+		display: block;
+		font-size: 2em;
+		color: white;
+		top: 46%;
+		text-align: center;
+		width: 100%;
+	}
+
+	.uibutton {
+		position: absolute;
+		display: block;
+		
+		width: 28%;
+		height:50px;
+		line-height: 50px;
+		text-align: center;
+		background: #ddac00;
+		font-size: 2em;
+		text-shadow: 2px 2px #a08900;
+		box-shadow: 0px 0px 0px 4px #ba9c22, 0px 0px 0px 8px #eee3d7, 0px 0px 0px 12px #502e00;
+	}
+		.playbtn {
+			left: 12%;
+			top: 65%;
+		}
+		.scorebtn {
+			right: 12%;
+			top: 65%;
+		}
+	.pausebtn {
+		background: #ee3814;
+		text-shadow: 2px 2px #ad2d07;
+		box-shadow: 0px 0px 0px 4px #ad2d07, 0px 0px 0px 8px #eee3d7, 0px 0px 0px 12px #502e00;
+		position: absolute;
+		display: block;
+		color: white;
+		font-size: 2em;
+		width: 20%;
+		top: 4%;
+		left: 4%;
+	}
+	a {
+		text-decoration: none;
+		color: white;
+	}
+	a:hover {
+		text-decoration: none;
+	}

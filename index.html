@@ -3,47 +3,91 @@
 <head>
 	<meta charset="utf-8" />
 	<title>Flappy Bird</title>
-	<style> html , body { margin: 0; padding: 0; overflow: hidden;} canvas { margin: 0; padding: 0;} </style>
+	<link href='http://fonts.googleapis.com/css?family=Geo' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/berd.css" type="text/css" />
 </head>
 <body>
-<canvas id="birdietime"></canvas>
+<div class="rap">
+	<canvas id="birdietime"></canvas>
+	<div class="gameui">
+		<p class="score">0</p>
+		<a class="uibutton pausebtn" href="#">PAUSE</a>
+	</div>
+	
+	<div class="menuscreen">
+		<a href="" class="flappyb"><img src="images/flappybanner.png" alt="flappy banner" /></a>
+		<p class="subtitle">navigate the<br />digital landscape</p>
+		<a class="uibutton playbtn" href="#">PLAY</a>
+		<a class="uibutton scorebtn" href="#">SCORE</a>
+		<!-- <a class="pausebtn" href="#">PAUSE</a> -->
+	</div>
+</div>
 <script src="js/jquery-1.11.0.min.js"></script>
 <script src="js/ANIMATION_CONTROLLER.js"></script>
 <script src="js/RESIZOR.js"></script>
 <script src="js/VECTOR.js"></script>
 <script src="js/BLOCK.js"></script>
 <script src="js/PIPE.js"></script>
-<script src="js/FLAPPY_SCENE.js"></script>
 <script src="js/FLAPPY.js"></script>
+<script src="js/CAMERA.js"></script>
+<script src="js/FLAPPY_SCENE.js"></script>
 <script>
 (function () {
 	var canvas = document.getElementById('birdietime'),
 	context = canvas.getContext('2d'),
-	scene;
+	$scoreBoard = $('.score'),
+	updateScore,
+	$gameui = $('.gameui'),
+	$menuscreen = $('.menuscreen'),
+	scene = null;
+
+	updateScore = function (skr) {
+		$scoreBoard.text(skr);
+	};
 
 	RESIZOR.addHandler(function (wid,hite) {
 		canvas.width = wid;
 		canvas.height = hite;
 	});
 
-	RESIZOR.once(function (w,h) {
-		scene = FLAPPY_SCENE(w,h, context);
-
+	function startGame () {
+		$scoreBoard.text('0');
+		$menuscreen.css({display: 'none'});
+		scene = FLAPPY_SCENE(canvas.width,canvas.height, context);
+		scene.onScoreChange(updateScore);
 		RESIZOR.addHandler(scene.updateSize);
 		ANIMATION_CONTROLLER.addScene(scene);
-		canvas.addEventListener('click',function(e){
-			e.preventDefault();
-			scene.onTouch();
-		}, false);
-		canvas.addEventListener('touchStart',function (e) {
-			e.preventDefault();
-			scene.onTouch();
-		}, false);
-		ANIMATION_CONTROLLER.init();
+	}
 
+
+	canvas.addEventListener('click',function(e){
+		e.preventDefault();
+		if(scene) {
+			scene.onTouch();
+		}
+	}, false);
+
+	canvas.addEventListener('touchStart',function (e) {
+		e.preventDefault();
+		if(scene) {
+			scene.onTouch();
+		}
+	}, false);
+
+	$('.pausebtn').bind('click',function (e) {
+		e.preventDefault();
+		ANIMATION_CONTROLLER.togglePause();
 	});
 
+	$('.playbtn').bind('click',function (e) {
+
+		e.preventDefault();
+		startGame();
+	});
+
+
 	RESIZOR.init();
+	ANIMATION_CONTROLLER.init();
 
 }());
 </script>
