@@ -1,32 +1,38 @@
-var PIPE = function (centerY, hite, wid, floor) {
+var PIPE = function (centerY, hite, wid, camera) {
 
 	var pipe = {
-		x : wid + 200,
+		x : wid + 200 - camera.x,
 		blocks : [],
 		speed : 4,
-		width: 100
+		width: 118,
+		height: 444
 	},
+	banners = ["honey","mona","winner","speed"],
 	passed = false,
 	height = hite,
-	gapHeight = 200,
+	gapHeight = 260,
 	bottomPipeTop = centerY + (gapHeight * 0.5),
 	topPipeBottom = centerY - (gapHeight * 0.5),
-	bottomPipeY = bottomPipeTop + ((height -  bottomPipeTop) * 0.5),
-	topPipeY = (topPipeBottom) * 0.5,
-	topPipeHeight = topPipeY * 2,
-	bottomPipeHeight = (height - bottomPipeY) * 2;
+	bottomPipeY = bottomPipeTop + (pipe.height * 0.5),
+	topPipeY = topPipeBottom - (pipe.height * 0.5);
+
+	console.log(camera);
+	//bottomPipeY = bottomPipeTop + ((height -  bottomPipeTop) * 0.5),
+	//topPipeY = (topPipeBottom) * 0.5,
+	//topPipeHeight = topPipeY * 2,
+	//bottomPipeHeight = (height - bottomPipeY) * 2;
 
 
-	pipe.blocks.push( new BLOCK(pipe.x, bottomPipeY, 100, bottomPipeHeight) );
-	pipe.blocks.push( new BLOCK(pipe.x, topPipeY, 100, topPipeHeight) );
+	pipe.blocks.push( new BANNER_BLOCK(pipe.x, bottomPipeY, pipe.width, pipe.height) );
+	pipe.blocks.push( new BANNER_BLOCK(pipe.x, topPipeY, pipe.width, pipe.height) );
 
-	var i = 0;
+	var randomBanner = banners[Math.floor(Math.random() * banners.length)];
+
 
 	for(i = 0; i < pipe.blocks.length; i += 1) {
-		pipe.blocks[i].setColor('rgb(255,23,23)');
-			
+		var randomBanner = banners[Math.floor(Math.random() * banners.length)];
+		pipe.blocks[i].setBanner(randomBanner);
 	}
-
 
 	pipe.update = function () {
 		this.x -= this.speed;

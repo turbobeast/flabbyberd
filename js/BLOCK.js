@@ -9,6 +9,7 @@ var BLOCK = function (x,y,w,h) {
 	this.fillStyle = 'rgb(161,223,149)';
 };
 
+
 BLOCK.prototype = {
 	updateSize : function (x,y,w,h) {
 		this.x = x;
@@ -28,12 +29,8 @@ BLOCK.prototype = {
 		this.fillStyle = fStyle;
 	},
 
-	update : function (bird) {
-		//
-	},
-
-	followBird : function (bird) {
-		this.x = bird.x;
+	update : function () {
+		//move...?
 	},
 
 	collisionTest : function (ragdoll) {
@@ -84,12 +81,16 @@ BLOCK.prototype = {
 	render : function (ctx,camera) {
 
 		ctx.save();
-		ctx.fillStyle = this.fillStyle;
 		ctx.setTransform(1,0,0,1,0,0);
-		ctx.translate(camera.x +  this.x, camera.y + this.y);
-		ctx.fillRect(-this.halfWidth, -this.halfHeight, this.width, this.height);
-		//ctx.drawImage(sprite, -this.width * 0.5, -this.height * 0.5, this.width, this.height );
-		ctx.restore();
 
+		if(this.image) {
+
+		} else {
+			ctx.translate(camera.x +  this.x, this.y);
+			ctx.fillStyle = this.fillStyle;
+			ctx.fillRect(-this.halfWidth, -this.halfHeight, this.width, this.height);
+		}
+		
+		ctx.restore();
 	}
 };

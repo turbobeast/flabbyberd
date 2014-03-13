@@ -8,18 +8,52 @@
 </head>
 <body>
 <div class="rap">
+	<div class="clouds"></div>
 	<canvas id="birdietime"></canvas>
-	<div class="gameui">
+
+
+	<div class="gamescreen gameui">
 		<p class="score">0</p>
 		<a class="uibutton pausebtn" href="#">PAUSE</a>
 	</div>
+
+	<div class="gamescreen readyscreen">
+		<div class="readywrap">
+			<img src="images/get_ready.png" alt="get ready" />
+			<p class="subtitle">PREPARE YOUR ANUS</p>
+			<img src="images/tap.png" alt="tap" />
+		</div>
+ 	</div>
 	
-	<div class="menuscreen">
-		<a href="" class="flappyb"><img src="images/flappybanner.png" alt="flappy banner" /></a>
-		<p class="subtitle">navigate the<br />digital landscape</p>
+	<div class="gamescreen menuscreen">
+		<a href="" class="flappyb">
+			<img src="images/flappybanner.png" alt="flappy banner" />
+			<p class="subtitle navi">navigate the<br />digital landscape</p>
+		</a>
+		<!-- <p class="subtitle navi">navigate the<br />digital landscape</p> -->
 		<a class="uibutton playbtn" href="#">PLAY</a>
 		<a class="uibutton scorebtn" href="#">SCORE</a>
-		<!-- <a class="pausebtn" href="#">PAUSE</a> -->
+		<div class="logowrap">
+			<p>brought to you by:</p>
+			<a href="http://stonecanoe.ca" target="_blank"><img src="images/sc_8bit.png" alt="stone canoe" /></a>
+		</div>
+	</div>
+
+	<div class="gamescreen deadscreen">
+		<div class="deadwrap">
+			<div class="innerdead">
+				<!-- <img class="spacer" src="images/square.gif" alt="" /> -->
+				<img class="gameover" src="images/gameover.png" alt="game over" />
+				<div class="scorecard">
+					<p class="scoreleft">SCORE <span class="scorenumb yourscore">0</span></p>
+					<p class="scoreright">BEST <span class="scorenumb bestscore">0</span></p>
+				</div>
+				<div class="retrywrap">
+					<a class="uibutton retry" href="#">RETRY</a>
+				</div>
+			</div>
+
+		</div>
 	</div>
 </div>
 <script src="js/jquery-1.11.0.min.js"></script>
@@ -27,6 +61,8 @@
 <script src="js/RESIZOR.js"></script>
 <script src="js/VECTOR.js"></script>
 <script src="js/BLOCK.js"></script>
+<script src="js/PATTERN_BLOCK.js"></script>
+<script src="js/BANNER_BLOCK.js"></script>
 <script src="js/PIPE.js"></script>
 <script src="js/FLAPPY.js"></script>
 <script src="js/CAMERA.js"></script>
@@ -39,6 +75,9 @@
 	updateScore,
 	$gameui = $('.gameui'),
 	$menuscreen = $('.menuscreen'),
+	$readyscreen = $('.readyscreen'),
+	$deadscreen = $('.deadscreen'),
+	$retrybtn = $('.retry'),
 	scene = null;
 
 	updateScore = function (skr) {
@@ -51,14 +90,23 @@
 	});
 
 	function startGame () {
-		$scoreBoard.text('0');
-		$menuscreen.css({display: 'none'});
-		scene = FLAPPY_SCENE(canvas.width,canvas.height, context);
-		scene.onScoreChange(updateScore);
-		RESIZOR.addHandler(scene.updateSize);
-		ANIMATION_CONTROLLER.addScene(scene);
+		$readyscreen.css({display: 'none'});
+		$gameui.css({display: 'block'});
 	}
 
+	function getReady () {
+		$scoreBoard.text('0');
+		$menuscreen.css({display: 'none'});
+		$gameui.css({display: 'block'});
+		$readyscreen.css({display: 'block'});
+		scene.getReady();
+	}
+
+	function deadBird () {
+		$deadscreen.css({display : 'block'});
+		$gameui.css({display: 'none'});
+		//$menuscreen.css({display : 'block'});
+	}
 
 	canvas.addEventListener('click',function(e){
 		e.preventDefault();
@@ -74,20 +122,44 @@
 		}
 	}, false);
 
+
 	$('.pausebtn').bind('click',function (e) {
 		e.preventDefault();
 		ANIMATION_CONTROLLER.togglePause();
 	});
 
 	$('.playbtn').bind('click',function (e) {
-
 		e.preventDefault();
-		startGame();
+		getReady();
 	});
 
+	$readyscreen.bind('click',function(e){
+		e.preventDefault();
+		if(scene) {
+			startGame();
+			scene.onTouch();
+		}	
+	});
+
+	$retrybtn.bind('click',function (e) {
+		
+		e.preventDefault();
+		$deadscreen.css({display : 'none'});
+		$menuscreen.css({display : 'block'});
+		if(scene) {
+			scene.reset();
+		}
+	});
 
 	RESIZOR.init();
 	ANIMATION_CONTROLLER.init();
+
+	scene = FLAPPY_SCENE(canvas.width,canvas.height, context);
+	scene.onScoreChange(updateScore);
+	scene.onLevelStart(startGame);
+	scene.inCaseOfDeadBird(deadBird);
+	RESIZOR.addHandler(scene.updateSize);
+	ANIMATION_CONTROLLER.addScene(scene);
 
 }());
 </script>
